@@ -226,61 +226,39 @@
         </div>
 
         <div class="page-main-content-bottom">
-            <footer class="footer">
-    <div class="info-container">
-        <div class="copyright-info info-item">
-            &copy;
-            
-              <span>2022</span>
-              -
-            
-            2022&nbsp;<i class="fa-solid fa-heart icon-animate"></i>&nbsp;<a href="/">星余. All Rights Reserved.</a>
-        </div>
-        
-            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-            <div class="website-count info-item">
-                
-                    <span id="busuanzi_container_site_uv">
-                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
-                    </span>
-                
-                
-                    <span id="busuanzi_container_site_pv">
-                        Totalviews&nbsp;<span id="busuanzi_value_site_pv"></span>
-                    </span>
-                
-            </div>
-        
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v0.4.4</a>
-        </div>
-        
-        
-        <script async data-pjax defer>
-            function odometer_init(){
-                    let el = document.getElementsByClassName('odometer');
-                    for (i = 0; i < el.length; i++) {
-                        od = new Odometer({
-                            el: el[i],
-                            format: '( ddd).dd',
-                            duration: 200
-                        });
-                    }
-            }
-            odometer_init();
-        </script>
-        <div id="start_time_div" style="display:none">
-            2022/8/17 11:45:14
-        </div>
-        
-            <div>
-                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
-            </div>
-        
-        
-        
-    </div>  
-</footer>
+            .footer {
+  font-size 1rem
+  color var(--third-text-color)
+
+
+  a {
+    color var(--third-text-color)
+
+
+    &:hover {
+      color var(--primary-color)
+
+    }
+  }
+
+  .info-container {
+    padding-bottom 10px
+    text-align center
+  }
+
+  .info-item {
+    margin 5px 0
+  }
+
+  .icon-animate {
+    animation icon-animate 1.2s ease-in-out infinite
+  }
+
+}
+
+
+
+
         </div>
     </div>
 
