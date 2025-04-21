@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="质数试除法判定质数#include &lt;iostream&gt; #include &lt;algorithm&gt;  using namespace std;  bool is_prime(int x) &amp;#123;     if (x &lt; 2) return false;     for (int i &#x3D; 2; i &lt;&#x3D; x &#x2F; i; i ++ )&#x2F;&#x2F;不要用开方函数或者i*i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法基础课-数学知识">
+<meta property="og:url" content="https://www.imalun.com/2024/02/02/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE-%E6%95%B0%E5%AD%A6%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="星余">
+<meta property="og:description" content="质数试除法判定质数#include &lt;iostream&gt; #include &lt;algorithm&gt;  using namespace std;  bool is_prime(int x) &amp;#123;     if (x &lt; 2) return false;     for (int i &#x3D; 2; i &lt;&#x3D; x &#x2F; i; i ++ )&#x2F;&#x2F;不要用开方函数或者i*i">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-02-02T09:50:54.164Z">
+<meta property="article:modified_time" content="2024-02-26T12:34:03.915Z">
+<meta property="article:author" content="日生">
+<meta property="article:tag" content="爱与思考">
+<meta name="twitter:card" content="summary">
+
+    <meta name="keywords" content="爱与思考">
+
+
+<title >算法基础课-数学知识</title>
+
+<!-- Favicon -->
+
+    <link href='/log.svg?v=2.0.9' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/log.svg?v=2.0.9' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/log.svg?v=2.0.9' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://npm.elemecdn.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://npm.elemecdn.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+
+    
+<script src="//at.alicdn.com/t/c/font_3637590_i4hyyea14ur.js"></script>
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"www.imalun.com","author":"日生","root":"/","typed_text":["ever ever give up"],"theme_version":"2.0.9","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"log.svg","icon16":"log.svg","icon32":"log.svg","appleTouchIcon":"log.svg","webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索文章...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://npm.elemecdn.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"icon-moon","moon":"icon-sun","play":"icon-yunhang","email":"icon-email","next":"icon-arrow-right","calendar":"icon-rili","clock":"icon-shijian","user":"icon-yonghu","back_top":"icon-backtop","close":"icon-guanbi","search":"icon-chaxun","reward":"icon-qiandai","user_tag":"icon-yonghu","toc_tag":"icon-liebiao","read":"icon-yuedu","arrows":"icon-moon","double_arrows":"icon-moon","copy":"icon-copy"},"icontype":"symbol","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"mac","height_limit":200}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2024-02-26 20:34:03"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.9" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github-dark.min.css">
+
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="星余" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-moon"></use>
+</svg></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-sun"></use>
+</svg></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/log.svg">
+    
+    
+        <div class="trm-logo-text">
+            shy<span>love</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    首页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    相册
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-moon"></use>
+</svg>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-sun"></use>
+</svg>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            算法基础课-数学知识
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2024
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-yonghu"></use>
+</svg>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-liebiao"></use>
+</svg>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="https://img2.baidu.com/it/u=1301236208,2754512807&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        shylove
+    </h5>
+    
+        <div class="trm-label">
+            Never
+            <span class="trm-typed-text">
+                <!-- Words for theme.user.typedText -->
+            </span>
+        </div>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/missdeng-fu/missdeng-fu.github.io" title="github" rel="nofollow" target="_blank">
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+</svg>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                地址:
+            </div>
+            <div class="trm-label trm-label-light">
+                格陵兰岛
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                年龄:
+            </div>
+            <div class="trm-label trm-label-light">
+                22
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:1810862625@qq.com" class="trm-btn">
+            联系我
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-email"></use>
+</svg>
+        </a>
+    </div>
+    <!-- action button end -->
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#质数"  data-scroll-to="#质数"><span class="toc-number">1.</span> <span class="toc-text">质数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#试除法判定质数"  data-scroll-to="#试除法判定质数"><span class="toc-number">1.1.</span> <span class="toc-text">试除法判定质数</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#分解质因数"  data-scroll-to="#分解质因数"><span class="toc-number">1.2.</span> <span class="toc-text">分解质因数</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#筛质数"  data-scroll-to="#筛质数"><span class="toc-number">1.3.</span> <span class="toc-text">筛质数</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#约数"  data-scroll-to="#约数"><span class="toc-number">2.</span> <span class="toc-text">约数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#试除法求约数"  data-scroll-to="#试除法求约数"><span class="toc-number">2.1.</span> <span class="toc-text">试除法求约数</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#约数个数"  data-scroll-to="#约数个数"><span class="toc-number">2.2.</span> <span class="toc-text">约数个数</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#约数之和"  data-scroll-to="#约数之和"><span class="toc-number">2.3.</span> <span class="toc-text">约数之和</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#最大公约数"  data-scroll-to="#最大公约数"><span class="toc-number">2.4.</span> <span class="toc-text">最大公约数</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#欧拉函数"  data-scroll-to="#欧拉函数"><span class="toc-number">3.</span> <span class="toc-text">欧拉函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#欧拉函数-1"  data-scroll-to="#欧拉函数-1"><span class="toc-number">3.1.</span> <span class="toc-text">欧拉函数</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#筛法求欧拉函数"  data-scroll-to="#筛法求欧拉函数"><span class="toc-number">3.2.</span> <span class="toc-text">筛法求欧拉函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#快速幂"  data-scroll-to="#快速幂"><span class="toc-number">4.</span> <span class="toc-text">快速幂</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#快速幂-1"  data-scroll-to="#快速幂-1"><span class="toc-number">4.1.</span> <span class="toc-text">快速幂</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#快速幂求逆元"  data-scroll-to="#快速幂求逆元"><span class="toc-number">4.2.</span> <span class="toc-text">快速幂求逆元</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#扩展欧几里得算法"  data-scroll-to="#扩展欧几里得算法"><span class="toc-number">5.</span> <span class="toc-text">扩展欧几里得算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#扩展欧几里得算法-1"  data-scroll-to="#扩展欧几里得算法-1"><span class="toc-number">5.1.</span> <span class="toc-text">扩展欧几里得算法</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#线性同余方程"  data-scroll-to="#线性同余方程"><span class="toc-number">5.2.</span> <span class="toc-text">线性同余方程</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#中国剩余定理"  data-scroll-to="#中国剩余定理"><span class="toc-number">6.</span> <span class="toc-text">中国剩余定理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#表达整数的奇怪方式"  data-scroll-to="#表达整数的奇怪方式"><span class="toc-number">6.1.</span> <span class="toc-text">表达整数的奇怪方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#高斯消元"  data-scroll-to="#高斯消元"><span class="toc-number">7.</span> <span class="toc-text">高斯消元</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#高斯消元解线性方程组"  data-scroll-to="#高斯消元解线性方程组"><span class="toc-number">7.1.</span> <span class="toc-text">高斯消元解线性方程组</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#高斯消元解异或线性方程组"  data-scroll-to="#高斯消元解异或线性方程组"><span class="toc-number">7.2.</span> <span class="toc-text">高斯消元解异或线性方程组</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#求组合数"  data-scroll-to="#求组合数"><span class="toc-number">8.</span> <span class="toc-text">求组合数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#求组合数I"  data-scroll-to="#求组合数I"><span class="toc-number">8.1.</span> <span class="toc-text">求组合数I</span></a></li></ol></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <svg class="symbol-icon trm-icon" aria-hidden="true">
+    <use xlink:href="#icon-rili"></use>
+</svg><br>
+            02/02
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <svg class="symbol-icon trm-icon" aria-hidden="true">
+    <use xlink:href="#icon-shijian"></use>
+</svg><br>
+            17:50
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <svg class="symbol-icon trm-icon" aria-hidden="true">
+    <use xlink:href="#icon-yonghu"></use>
+</svg><br>
+            日生
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h2 id="质数"><a href="#质数" class="headerlink" title="质数"></a>质数</h2><h3 id="试除法判定质数"><a href="#试除法判定质数" class="headerlink" title="试除法判定质数"></a>试除法判定质数</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">is_prime</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span> (x &lt; <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= x / i; i ++ )<span class="hljs-comment">//不要用开方函数或者i*i小于x。开方函数慢，i*i可能越界</span>
+        <span class="hljs-keyword">if</span> (x % i == <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+
+    <span class="hljs-keyword">while</span> (n -- )
+    &#123;
+        <span class="hljs-type">int</span> x;
+        cin &gt;&gt; x;
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">is_prime</span>(x)) cout &lt;&lt; <span class="hljs-string">&quot;Yes&quot;</span> &lt;&lt; endl;
+        <span class="hljs-keyword">else</span> cout &lt;&lt; <span class="hljs-string">&quot;No&quot;</span> &lt;&lt; endl;;
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h3 id="分解质因数"><a href="#分解质因数" class="headerlink" title="分解质因数"></a>分解质因数</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//详细得可以看这个题解：https://www.acwing.com/solution/content/27448/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">divide</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= x / i; i ++ )<span class="hljs-comment">//i &lt;= x / i:防止越界，速度大于 i &lt; sqrt(x)</span>
+&#123;
+        <span class="hljs-keyword">if</span> (x % i == <span class="hljs-number">0</span>)<span class="hljs-comment">//i为底数</span>
+        &#123;
+            <span class="hljs-type">int</span> s = <span class="hljs-number">0</span>;<span class="hljs-comment">//s为指数</span>
+            <span class="hljs-keyword">while</span> (x % i == <span class="hljs-number">0</span>) x /= i, s ++ ;
+            cout &lt;&lt; i &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span> &lt;&lt; s &lt;&lt; endl;<span class="hljs-comment">//输出</span>
+        &#125;
+&#125;
+    <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">1</span>) cout &lt;&lt; x &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span> &lt;&lt; <span class="hljs-number">1</span> &lt;&lt; endl;<span class="hljs-comment">//如果x还有剩余，单独处理</span>
+    cout &lt;&lt; endl;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+    <span class="hljs-keyword">while</span> (n -- )
+    &#123;
+        <span class="hljs-type">int</span> x;
+        cin &gt;&gt; x;
+        <span class="hljs-built_in">divide</span>(x);
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h3 id="筛质数"><a href="#筛质数" class="headerlink" title="筛质数"></a>筛质数</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//线性法时间复杂度为O(n)</span>
+<span class="hljs-comment">//参考这个链接：https://www.acwing.com/solution/content/7950/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N= <span class="hljs-number">1000010</span>;
+
+<span class="hljs-type">int</span> primes[N], cnt;
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">get_primes</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">if</span> (!st[i]) primes[cnt ++ ] = i; 
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; primes[j] &lt;= n / i; j ++ )
+        &#123;
+            st[primes[j] * i] = <span class="hljs-literal">true</span>; <span class="hljs-comment">//用最小质因子去筛合数</span>
+            <span class="hljs-keyword">if</span> (i % primes[j] == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;
+            <span class="hljs-comment">//当i%primes[j]!=0时,说明此时遍历到的primes[j]不是i的质因子，那么只可能是此时的primes[j]&lt;i的最小质因子,所以primes[j]*i的最小质因子就是primes[j];</span>
+            <span class="hljs-comment">//当有i%primes[j]==0时,说明i的最小质因子是primes[j],因此primes[j]*i的最小质因子也就应该是prime[j]，之后接着用st[primes[j+1]*i]=true去筛合数时，就不是用最小质因子去更新了,因为i有最小质因子primes[j]&lt;primes[j+1],此时的primes[j+1]不是primes[j+1]*i的最小质因子，此时就应该退出循环，避免之后重复进行筛选。</span>
+        &#125;
+        
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+
+    <span class="hljs-built_in">get_primes</span>(n);
+
+    cout &lt;&lt; cnt &lt;&lt; endl;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+</code></pre>
+
+
+<h2 id="约数"><a href="#约数" class="headerlink" title="约数"></a>约数</h2><h3 id="试除法求约数"><a href="#试除法求约数" class="headerlink" title="试除法求约数"></a>试除法求约数</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> T;
+    cin &gt;&gt; T;
+    <span class="hljs-keyword">while</span>(T--)
+    &#123;
+        <span class="hljs-type">int</span> n;
+        cin &gt;&gt; n;
+        vector&lt;<span class="hljs-type">int</span>&gt; res;
+        <span class="hljs-comment">//因为约数成对出现，所以只需要循环到根号x</span>
+        <span class="hljs-comment">// 不要是用 i *i &lt;= n，因为可能溢出</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n /i; i++)
+        &#123;
+            <span class="hljs-keyword">if</span>(n % i == <span class="hljs-number">0</span>)
+            &#123;
+                res.<span class="hljs-built_in">push_back</span>(i);
+                <span class="hljs-comment">//如果i * i = x,添加i即可，不用添加 x / i</span>
+                <span class="hljs-keyword">if</span>(n / i != i)
+                    res.<span class="hljs-built_in">push_back</span>(n / i);
+            &#125;
+        &#125;
+        <span class="hljs-built_in">sort</span>(res.<span class="hljs-built_in">begin</span>(), res.<span class="hljs-built_in">end</span>());
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> x : res) cout &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+        cout &lt;&lt; endl;
+
+    &#125;
+&#125;</code></pre>
+
+
+<h3 id="约数个数"><a href="#约数个数" class="headerlink" title="约数个数"></a>约数个数</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unordered_map&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> mod = <span class="hljs-number">1e9</span>+<span class="hljs-number">7</span> ;
+<span class="hljs-comment">//这题只要是考察约数个数的公式</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> T; 
+    cin &gt;&gt; T;
+    unordered_map&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; h;
+    <span class="hljs-keyword">while</span>(T--)
+    &#123;
+        <span class="hljs-type">int</span> n; 
+        cin &gt;&gt; n;
+        <span class="hljs-comment">//依次求出指数</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n / i; i++)
+        &#123;
+            <span class="hljs-keyword">while</span>(n % i == <span class="hljs-number">0</span>)
+            &#123;
+                <span class="hljs-comment">//指数+1</span>
+                h[i] ++;
+                n = n / i;
+            &#125;
+        &#125;
+        <span class="hljs-comment">//如果有剩余，也是一个质因子</span>
+        <span class="hljs-keyword">if</span>(n &gt; <span class="hljs-number">1</span>) h[n]++;
+    &#125;
+
+    <span class="hljs-type">long</span> <span class="hljs-type">long</span>  res = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> iter = h.<span class="hljs-built_in">begin</span>(); iter != h.<span class="hljs-built_in">end</span>(); iter++)
+    &#123;
+        <span class="hljs-comment">//res = (x1+1)(x2+1)(x3+1)…(xk+1)</span>
+        res = res * (iter-&gt;second + <span class="hljs-number">1</span>) % mod ;
+    &#125;
+    cout &lt;&lt; res;
+&#125;
+</code></pre>
+
+<h3 id="约数之和"><a href="#约数之和" class="headerlink" title="约数之和"></a>约数之和</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unordered_map&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">110</span>, mod = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+
+    unordered_map&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; primes;
+
+    <span class="hljs-keyword">while</span> (n -- )
+    &#123;
+        <span class="hljs-type">int</span> x;
+        cin &gt;&gt; x;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= x / i; i ++ )
+        &#123;
+            <span class="hljs-keyword">while</span> (x % i == <span class="hljs-number">0</span>)
+            &#123;
+                x /= i;
+                primes[i] ++ ;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">1</span>) primes[x] ++ ;
+    &#125;
+
+    LL res = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> p : primes)
+    &#123;
+        LL a = p.first, b = p.second;
+        LL t = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span> (b -- ) t = (t * a + <span class="hljs-number">1</span>) % mod;<span class="hljs-comment">// x^2 + x = x(x + 1);</span>
+        <span class="hljs-comment">//计算一下：</span>
+<span class="hljs-comment">//第一步：</span>
+<span class="hljs-comment">//t = (t * a + 1)</span>
+<span class="hljs-comment">//t=p1的一次方+p1的零次方；</span>
+
+<span class="hljs-comment">//第二步：</span>
+<span class="hljs-comment">//t = (t * a + 1)</span>
+<span class="hljs-comment">//t=p1的二次方+p1的一次方+1=p1的二次方+p1的一次方+p1的零次方；</span>
+        res = res * t % mod;
+    &#125;
+
+    cout &lt;&lt; res &lt;&lt; endl;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h3 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h3><pre><code class="hljs C++"><span class="hljs-comment">//这段算法得代码关键是辗转相除法具体可以参考以下链接：https://www.acwing.com/solution/content/145791/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> T;
+    cin &gt;&gt; T;
+    <span class="hljs-keyword">while</span>(T--)
+    &#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-comment">//辗转相除，直到小括号内右边数为0</span>
+        <span class="hljs-keyword">while</span>(b)
+        &#123;
+            <span class="hljs-comment">//c 一定小于 b</span>
+            <span class="hljs-type">int</span> c = a % b;
+            <span class="hljs-comment">//小括号左边放除数，右边放约数</span>
+            a = b;
+            b = c;
+        &#125;
+        <span class="hljs-comment">//小括号内左边数为最大公约数</span>
+        cout &lt;&lt; a &lt;&lt; endl;
+    &#125;
+&#125;</code></pre>
+
+<h2 id="欧拉函数"><a href="#欧拉函数" class="headerlink" title="欧拉函数"></a>欧拉函数</h2><h3 id="欧拉函数-1"><a href="#欧拉函数-1" class="headerlink" title="欧拉函数"></a>欧拉函数</h3><pre><code class="hljs C++"><span class="hljs-comment">//只是一个数学公式具体推导看这个链接就可以：https://www.acwing.com/solution/content/8702/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">phi</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> res = x;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= x / i; i ++ )
+        <span class="hljs-keyword">if</span> (x % i == <span class="hljs-number">0</span>)
+        &#123;
+            res = res / i * (i - <span class="hljs-number">1</span>);
+            <span class="hljs-keyword">while</span> (x % i == <span class="hljs-number">0</span>) x /= i;
+        &#125;
+    <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">1</span>) res = res / x * (x - <span class="hljs-number">1</span>);
+
+    <span class="hljs-keyword">return</span> res;
+&#125;
+
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+    <span class="hljs-keyword">while</span> (n -- )
+    &#123;
+        <span class="hljs-type">int</span> x;
+        cin &gt;&gt; x;
+        cout &lt;&lt; <span class="hljs-built_in">phi</span>(x) &lt;&lt; endl;
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h3 id="筛法求欧拉函数"><a href="#筛法求欧拉函数" class="headerlink" title="筛法求欧拉函数"></a>筛法求欧拉函数</h3><pre><code class="hljs C++">
+
+<span class="hljs-comment">//不懂的地方看这个代码：https://www.acwing.com/solution/content/3952/</span>
+<span class="hljs-comment">//y总的代码视频讲的也很纤细：https://www.acwing.com/video/299/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1000010</span>;
+<span class="hljs-type">int</span> primes[N], cnt;
+<span class="hljs-type">int</span> phi[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">get_eulers</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span>
+<span class="hljs-function"></span>&#123;
+    phi[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)
+    &#123;
+        <span class="hljs-keyword">if</span> (!st[i])
+        &#123;
+            primes[cnt++] = i;
+            phi[i] = i - <span class="hljs-number">1</span>; 
+        &#125;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; primes[j] &lt;= n / i; j++)
+        &#123;
+            st[primes[j] * i] = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">if</span> (i % primes[j] == <span class="hljs-number">0</span>)
+            &#123;
+                phi[primes[j] * i] = phi[i] * primes[j]; 
+                <span class="hljs-keyword">break</span>;
+            &#125;
+            phi[primes[j] * i] = phi[i] * (primes[j] - <span class="hljs-number">1</span>);
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    cin &gt;&gt; n;
+
+    <span class="hljs-built_in">get_eulers</span>(n);
+    LL res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) res += phi[i];
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, res);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h2 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h2><h3 id="快速幂-1"><a href="#快速幂-1" class="headerlink" title="快速幂"></a>快速幂</h3><pre><code class="hljs C++">
+
+<span class="hljs-comment">//为什么是Logb得时候复杂度，可以看这个链接：https://www.acwing.com/solution/content/15293/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+
+
+
+<span class="hljs-function">LL <span class="hljs-title">quick</span><span class="hljs-params">(LL a,LL b,LL p)</span><span class="hljs-comment">//二进制，背就完事</span></span>
+<span class="hljs-function"></span>&#123;
+    LL res=<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span>(b&gt;<span class="hljs-number">0</span>)
+    &#123;
+        <span class="hljs-keyword">if</span>(b&amp;<span class="hljs-number">1</span>) res=a*res%p; <span class="hljs-comment">//%p都是为了防止溢出操作</span>
+        a=a*a%p;<span class="hljs-comment">//这里也是，每次乘以得数都不一样</span>
+        b&gt;&gt;=<span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> res;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ )
+    &#123;
+        <span class="hljs-type">int</span> a,b,p;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>, &amp;a, &amp;b,&amp;p);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,<span class="hljs-built_in">quick</span>(a,b,p));
+    &#125;
+&#125;</code></pre>
+
+<h3 id="快速幂求逆元"><a href="#快速幂求逆元" class="headerlink" title="快速幂求逆元"></a>快速幂求逆元</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//不懂的话，看下链接这篇文章就懂了：https://www.acwing.com/problem/content/878/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+
+<span class="hljs-function">LL <span class="hljs-title">qmi</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> p)</span></span>
+<span class="hljs-function"></span>&#123;
+    LL res = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span>(b)&#123;
+        <span class="hljs-keyword">if</span>(b &amp; <span class="hljs-number">1</span>) res = res * a % p;
+        a = (LL)a * a % p;
+        b &gt;&gt;= <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> res;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n; cin &gt;&gt; n;
+    <span class="hljs-keyword">while</span>(n --)&#123;
+        <span class="hljs-type">int</span> a, p;
+        cin &gt;&gt; a &gt;&gt; p;
+        <span class="hljs-keyword">if</span>(a % p == <span class="hljs-number">0</span>) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;impossible&quot;</span>);
+        <span class="hljs-keyword">else</span> cout &lt;&lt; <span class="hljs-built_in">qmi</span>(a, p - <span class="hljs-number">2</span>, p) &lt;&lt; endl;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+
+<h2 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h2><h3 id="扩展欧几里得算法-1"><a href="#扩展欧几里得算法-1" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//详细的过程看看这个代码：https://www.acwing.com/solution/content/1393/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> &amp;y)</span></span>&#123;<span class="hljs-comment">//返回gcd(a,b) 并求出解(引用带回)</span>
+    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)&#123;
+        x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">return</span> a;
+    &#125;
+    <span class="hljs-type">int</span> x1,y1,gcd;
+    gcd = <span class="hljs-built_in">exgcd</span>(b, a%b, x1, y1);
+    x = y1, y = x1 - a/b*y1;
+    <span class="hljs-keyword">return</span> gcd; 
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-type">int</span> n,a,b,x,y;
+    cin&gt;&gt;n;
+    <span class="hljs-keyword">while</span>(n--)&#123;
+        cin&gt;&gt;a&gt;&gt;b;
+        <span class="hljs-built_in">exgcd</span>(a,b,x,y);
+        cout&lt;&lt;x&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;y&lt;&lt;endl;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h3 id="线性同余方程"><a href="#线性同余方程" class="headerlink" title="线性同余方程"></a>线性同余方程</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//证明思路看一下这个链接：https://www.acwing.com/solution/content/5937/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">using</span> LL = <span class="hljs-type">long</span> <span class="hljs-type">long</span> ;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> &amp;y)</span></span>&#123;<span class="hljs-comment">//返回gcd(a,b) 并求出解(引用带回)</span>
+    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)&#123;
+        x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">return</span> a;
+    &#125;
+    <span class="hljs-type">int</span> x1,y1,gcd;
+    gcd = <span class="hljs-built_in">exgcd</span>(b, a%b, x1, y1);
+    x = y1, y = x1 - a/b*y1;
+    <span class="hljs-keyword">return</span> gcd; 
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-type">int</span> n,a,b,x,y,m;
+    cin&gt;&gt;n;
+    <span class="hljs-keyword">while</span>(n--)&#123;
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;m;
+        <span class="hljs-type">int</span> d=<span class="hljs-built_in">exgcd</span>(a,m,x,y);
+        <span class="hljs-keyword">if</span> (b % d) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;impossible&quot;</span>);
+        <span class="hljs-keyword">else</span> 
+        &#123;
+            x = (LL)x * b / d % m;
+            cout &lt;&lt; x &lt;&lt; endl;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h2 id="中国剩余定理"><a href="#中国剩余定理" class="headerlink" title="中国剩余定理"></a>中国剩余定理</h2><h3 id="表达整数的奇怪方式"><a href="#表达整数的奇怪方式" class="headerlink" title="表达整数的奇怪方式"></a>表达整数的奇怪方式</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//这个代码看不懂</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+<span class="hljs-type">int</span> n;
+<span class="hljs-function">LL <span class="hljs-title">exgcd</span><span class="hljs-params">(LL a, LL b, LL &amp;x, LL &amp;y)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(b == <span class="hljs-number">0</span>)&#123;
+        x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">return</span> a;
+    &#125;
+
+    LL d = <span class="hljs-built_in">exgcd</span>(b, a % b, y, x);
+    y -= a / b * x;
+    <span class="hljs-keyword">return</span> d;
+&#125;
+<span class="hljs-function">LL <span class="hljs-keyword">inline</span> <span class="hljs-title">mod</span><span class="hljs-params">(LL a, LL b)</span></span>&#123;
+    <span class="hljs-keyword">return</span> ((a % b) + b) % b;
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    LL a1, m1;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld%lld&quot;</span>, &amp;a1, &amp;m1);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i++)&#123;
+        LL a2, m2, k1, k2;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld%lld&quot;</span>, &amp;a2, &amp;m2);
+        LL d = <span class="hljs-built_in">exgcd</span>(a1, -a2, k1, k2);
+        <span class="hljs-keyword">if</span>((m2 - m1) % d)&#123; <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;-1&quot;</span>); <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; &#125;
+        k1 = <span class="hljs-built_in">mod</span>(k1 * (m2 - m1) / d, <span class="hljs-built_in">abs</span>(a2 / d));
+        m1 = k1 * a1 + m1;
+        a1 = <span class="hljs-built_in">abs</span>(a1 / d * a2);
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, m1);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+
+<h2 id="高斯消元"><a href="#高斯消元" class="headerlink" title="高斯消元"></a>高斯消元</h2><h3 id="高斯消元解线性方程组"><a href="#高斯消元解线性方程组" class="headerlink" title="高斯消元解线性方程组"></a>高斯消元解线性方程组</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cmath&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">110</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">double</span> eps = <span class="hljs-number">1e-6</span>;
+
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">double</span> a[N][N];
+
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gauss</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> c, r;<span class="hljs-comment">// c 代表 列 col ， r 代表 行 row</span>
+    <span class="hljs-keyword">for</span> (c = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>; c &lt; n; c ++ )
+    &#123;
+        <span class="hljs-type">int</span> t = r;<span class="hljs-comment">// 先找到当前这一列，绝对值最大的一个数字所在的行号</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = r; i &lt; n; i ++ )
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i][c]) &gt; <span class="hljs-built_in">fabs</span>(a[t][c]))
+                t = i;
+        <span class="hljs-comment">//这一步就找到了最大的行号</span>
+        
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[t][c]) &lt; eps) <span class="hljs-keyword">continue</span>;<span class="hljs-comment">// 如果当前这一列的最大数都是 0 ，那么所有数都是 0，就没必要去算了，因为它的约束方程，可能在上面几行</span>
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = c; i &lt; n + <span class="hljs-number">1</span>; i ++ ) <span class="hljs-built_in">swap</span>(a[t][i], a[r][i]);<span class="hljs-comment">//// 把当前这一行，换到最上面（不是第一行，是第 r 行）去</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = n; i &gt;= c; i -- ) a[r][i] /= a[r][c];<span class="hljs-comment">// 把当前这一行的第一个数，变成 1， 方程两边同时除以 第一个数，必须要到着算，不然第一个数直接变1，系数就被篡改，后面的数字没法算</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = r + <span class="hljs-number">1</span>; i &lt; n; i ++ )<span class="hljs-comment">// 把当前列下面的所有数，全部消成 0</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i][c]) &gt; eps)<span class="hljs-comment">// 如果非0 再操作，已经是 0就没必要操作了</span>
+                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = n; j &gt;= c; j -- )<span class="hljs-comment">// 从后往前，当前行的每个数字，都减去对应列 * 行首非0的数字，这样就能保证第一个数字是 a[i][0] -= 1*a[i][0];</span>
+                    a[i][j] -= a[r][j] * a[i][c];
+
+        r ++ ;<span class="hljs-comment">// 这一行的工作做完，换下一行</span>
+    &#125;
+
+    <span class="hljs-keyword">if</span> (r &lt; n)<span class="hljs-comment">// 说明剩下方程的个数是小于 n 的，说明不是唯一解，判断是无解还是无穷多解</span>
+    &#123;<span class="hljs-comment">// 因为已经是阶梯型，所以 r ~ n-1 的值应该都为 0</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = r; i &lt; n; i ++ )<span class="hljs-comment">// </span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a[i][n]) &gt; eps)<span class="hljs-comment">// a[i][n] 代表 b_i ,即 左边=0，右边=b_i,0 != b_i, 所以无解。</span>
+                <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<span class="hljs-comment">// 否则， 0 = 0，就是r ~ n-1的方程都是多余方程</span>
+    &#125;
+
+    <span class="hljs-comment">//这一步的解释看看这个链接的评论区：https://www.acwing.com/solution/content/5151/</span>
+    <span class="hljs-comment">// 唯一解 ↓，从下往上回代，得到方程的解</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = n - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i -- )
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i + <span class="hljs-number">1</span>; j &lt; n; j ++ )
+            a[i][n] -= a[j][n] * a[i][j];<span class="hljs-comment">//因为只要得到解，所以只用对 b_i 进行操作，中间的值，可以不用操作，因为不用输出</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    cin &gt;&gt; n;
+    
+    <span class="hljs-comment">//处理数据输入</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ )
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; n + <span class="hljs-number">1</span>; j ++ )
+            cin &gt;&gt; a[i][j];
+
+    <span class="hljs-type">int</span> t = <span class="hljs-built_in">gauss</span>();
+
+    <span class="hljs-keyword">if</span> (t == <span class="hljs-number">0</span>)
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ ) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%.2lf\n&quot;</span>, a[i][n]);
+    &#125;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (t == <span class="hljs-number">1</span>) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Infinite group solutions&quot;</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;No solution&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h3 id="高斯消元解异或线性方程组"><a href="#高斯消元解异或线性方程组" class="headerlink" title="高斯消元解异或线性方程组"></a>高斯消元解异或线性方程组</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">110</span>;
+<span class="hljs-type">int</span> a[N][N];
+<span class="hljs-type">int</span> n;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gauss</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//第一：消成同解的上三角矩阵</span>
+    <span class="hljs-type">int</span> r, c;
+    <span class="hljs-comment">//1.枚举列,可以跳过行，但是不能跳过列</span>
+    <span class="hljs-keyword">for</span> (r = <span class="hljs-number">0</span>, c = <span class="hljs-number">0</span>; c &lt; n; c++) &#123;
+        <span class="hljs-comment">//2.找到剩余行中的非零行</span>
+        <span class="hljs-type">int</span> t = r;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = r; i &lt; n; i++)
+            <span class="hljs-keyword">if</span> (a[i][c]) &#123;
+                t = i;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        <span class="hljs-keyword">if</span> (a[t][c] == <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-comment">//3.非零行换到剩余行中的最上面</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = c; i &lt;= n; i++) <span class="hljs-built_in">swap</span>(a[r][i], a[t][i]);
+        <span class="hljs-comment">//4.剩余行中的第c列下面消成0</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = r + <span class="hljs-number">1</span>; i &lt; n; i++) &#123;
+            <span class="hljs-keyword">if</span> (a[i][c]) &#123;
+                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = c; j &lt;= n; j++)
+                    a[i][j] ^= a[r][j];
+            &#125;
+        &#125;
+        r++;   
+    &#125;   
+    <span class="hljs-comment">//第二：判断解的情况</span>
+    <span class="hljs-keyword">if</span> (r &lt; n) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = r; i &lt; n; i++)
+            <span class="hljs-keyword">if</span> (a[i][n])
+                <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = n - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i + <span class="hljs-number">1</span>; j &lt; n; j++) &#123;
+                a[i][n] ^= a[i][j] * a[j][n];
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//int n;</span>
+    cin &gt;&gt; n;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= n; j++)
+            cin &gt;&gt; a[i][j];
+    <span class="hljs-type">int</span> res = <span class="hljs-built_in">gauss</span>();
+    <span class="hljs-keyword">if</span> (res == <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+            cout &lt;&lt; a[i][n] &lt;&lt; endl;
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (res == <span class="hljs-number">1</span>) 
+        cout &lt;&lt; <span class="hljs-string">&quot;Multiple sets of solutions&quot;</span>&lt;&lt; endl;
+    <span class="hljs-keyword">else</span> 
+        cout &lt;&lt;   <span class="hljs-string">&quot;No solution&quot;</span> &lt;&lt; endl;
+&#125;
+</code></pre>
+
+<h2 id="求组合数"><a href="#求组合数" class="headerlink" title="求组合数"></a>求组合数</h2><h3 id="求组合数I"><a href="#求组合数I" class="headerlink" title="求组合数I"></a>求组合数I</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2010</span>, mod = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+
+
+<span class="hljs-type">int</span> c[N][N];
+
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i ++ )
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= i; j ++ )
+            <span class="hljs-keyword">if</span> (!j) c[i][j] = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">else</span> c[i][j] = (c[i - <span class="hljs-number">1</span>][j] + c[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) % mod;
+&#125;
+
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-type">int</span> n;
+
+    <span class="hljs-built_in">init</span>();
+
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+
+    <span class="hljs-keyword">while</span> (n -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>, &amp;a, &amp;b);
+
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, c[a][b]);
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+</code></pre>
+
+</article>
+    
+    
+
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2024/05/31/%E8%AF%BE%E7%A8%8B%E6%A6%82%E8%BF%B0/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <div class="trm-cover-date">
+                    <div class="trm-cover-day">31</div>
+                    <div class="trm-cover-month">2024/05</div>
+                </div>
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/B%E7%AB%99-%E6%95%B0%E5%AD%97%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E9%9D%99%E6%80%81%E6%97%B6%E5%BA%8F%E5%88%86%E6%9E%90%E5%9F%BA%E7%A1%80/">
+                    B站-数字集成电路静态时序分析基础
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/05/31/%E8%AF%BE%E7%A8%8B%E6%A6%82%E8%BF%B0/" class="trm-anima-link">
+                    课程概述
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/05/31</li>
+                <li>16:32</li>
+                
+                    <li>477</li>
+                
+                
+                    <li>1</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2024/01/30/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE-%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%9B%BE%E8%AE%BA/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <div class="trm-cover-date">
+                    <div class="trm-cover-day">30</div>
+                    <div class="trm-cover-month">2024/01</div>
+                </div>
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE/">
+                    算法基础课
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/01/30/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE-%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%9B%BE%E8%AE%BA/" class="trm-anima-link">
+                    算法基础课-搜索与图论
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/01/30</li>
+                <li>22:08</li>
+                
+                    <li>6.9k</li>
+                
+                
+                    <li>33</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container" data-scroll data-scroll-offset="50">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2023- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">shylove</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item">
+             "星余"  再次运行已经 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        var BirthDay = new Date("07/25/2023 16:13:00");
+        var today = new Date();
+        var timeold = (today.getTime() - BirthDay.getTime());
+        var msPerDay = 24 * 60 * 60 * 1000
+        var day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-yuedu"></use>
+</svg>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="回到顶部">
+        <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-backtop"></use>
+</svg>
+    </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://npm.elemecdn.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://npm.elemecdn.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+        <script src="/js/plugins/typing.js?v=2.0.9"></script>
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://npm.elemecdn.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://twikoo-api-blue.vercel.app/","region":null,"option":null},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.9"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

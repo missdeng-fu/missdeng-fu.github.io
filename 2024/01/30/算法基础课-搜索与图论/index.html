@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="DFS排列问题#include&lt;iostream&gt; using namespace std; const int N &#x3D; 10; int path[N];&#x2F;&#x2F;保存序列 int state[N];&#x2F;&#x2F;数字是否被用过 int n; void dfs(int u) &amp;#123;     if(u &gt; n)&#x2F;&#x2F;数字填完了，输出     &amp;#123;         for(int i &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法基础课-搜索与图论">
+<meta property="og:url" content="https://www.imalun.com/2024/01/30/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE-%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%9B%BE%E8%AE%BA/index.html">
+<meta property="og:site_name" content="星余">
+<meta property="og:description" content="DFS排列问题#include&lt;iostream&gt; using namespace std; const int N &#x3D; 10; int path[N];&#x2F;&#x2F;保存序列 int state[N];&#x2F;&#x2F;数字是否被用过 int n; void dfs(int u) &amp;#123;     if(u &gt; n)&#x2F;&#x2F;数字填完了，输出     &amp;#123;         for(int i &#x3D;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-01-30T14:08:36.411Z">
+<meta property="article:modified_time" content="2024-02-02T09:21:51.998Z">
+<meta property="article:author" content="日生">
+<meta property="article:tag" content="爱与思考">
+<meta name="twitter:card" content="summary">
+
+    <meta name="keywords" content="爱与思考">
+
+
+<title >算法基础课-搜索与图论</title>
+
+<!-- Favicon -->
+
+    <link href='/log.svg?v=2.0.9' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/log.svg?v=2.0.9' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/log.svg?v=2.0.9' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://npm.elemecdn.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://npm.elemecdn.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+
+    
+<script src="//at.alicdn.com/t/c/font_3637590_i4hyyea14ur.js"></script>
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"www.imalun.com","author":"日生","root":"/","typed_text":["ever ever give up"],"theme_version":"2.0.9","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"log.svg","icon16":"log.svg","icon32":"log.svg","appleTouchIcon":"log.svg","webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索文章...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://npm.elemecdn.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"icon-moon","moon":"icon-sun","play":"icon-yunhang","email":"icon-email","next":"icon-arrow-right","calendar":"icon-rili","clock":"icon-shijian","user":"icon-yonghu","back_top":"icon-backtop","close":"icon-guanbi","search":"icon-chaxun","reward":"icon-qiandai","user_tag":"icon-yonghu","toc_tag":"icon-liebiao","read":"icon-yuedu","arrows":"icon-moon","double_arrows":"icon-moon","copy":"icon-copy"},"icontype":"symbol","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"mac","height_limit":200}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2024-02-02 17:21:51"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.9" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github-dark.min.css">
+
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="星余" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-moon"></use>
+</svg></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-sun"></use>
+</svg></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/log.svg">
+    
+    
+        <div class="trm-logo-text">
+            shy<span>love</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    首页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    相册
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-moon"></use>
+</svg>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-sun"></use>
+</svg>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            算法基础课-搜索与图论
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2024
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-yonghu"></use>
+</svg>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-liebiao"></use>
+</svg>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="https://img2.baidu.com/it/u=1301236208,2754512807&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        shylove
+    </h5>
+    
+        <div class="trm-label">
+            Never
+            <span class="trm-typed-text">
+                <!-- Words for theme.user.typedText -->
+            </span>
+        </div>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com/missdeng-fu/missdeng-fu.github.io" title="github" rel="nofollow" target="_blank">
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-github"></use>
+</svg>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                地址:
+            </div>
+            <div class="trm-label trm-label-light">
+                格陵兰岛
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                年龄:
+            </div>
+            <div class="trm-label trm-label-light">
+                22
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:1810862625@qq.com" class="trm-btn">
+            联系我
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-email"></use>
+</svg>
+        </a>
+    </div>
+    <!-- action button end -->
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#DFS"  data-scroll-to="#DFS"><span class="toc-number">1.</span> <span class="toc-text">DFS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#排列问题"  data-scroll-to="#排列问题"><span class="toc-number">1.1.</span> <span class="toc-text">排列问题</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#n皇后问题"  data-scroll-to="#n皇后问题"><span class="toc-number">1.2.</span> <span class="toc-text">n皇后问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#BFS"  data-scroll-to="#BFS"><span class="toc-number">2.</span> <span class="toc-text">BFS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#走迷宫问题"  data-scroll-to="#走迷宫问题"><span class="toc-number">2.1.</span> <span class="toc-text">走迷宫问题</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#八数码问题"  data-scroll-to="#八数码问题"><span class="toc-number">2.2.</span> <span class="toc-text">八数码问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#树和图的深度优先遍历"  data-scroll-to="#树和图的深度优先遍历"><span class="toc-number">3.</span> <span class="toc-text">树和图的深度优先遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#树的重心问题"  data-scroll-to="#树的重心问题"><span class="toc-number">3.1.</span> <span class="toc-text">树的重心问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#树和图的广度优先遍历"  data-scroll-to="#树和图的广度优先遍历"><span class="toc-number">4.</span> <span class="toc-text">树和图的广度优先遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#图中点的层次"  data-scroll-to="#图中点的层次"><span class="toc-number">4.1.</span> <span class="toc-text">图中点的层次</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#拓扑排序"  data-scroll-to="#拓扑排序"><span class="toc-number">5.</span> <span class="toc-text">拓扑排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#有向图的拓扑序列"  data-scroll-to="#有向图的拓扑序列"><span class="toc-number">5.1.</span> <span class="toc-text">有向图的拓扑序列</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#Dijstra"  data-scroll-to="#Dijstra"><span class="toc-number">6.</span> <span class="toc-text">Dijstra</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#Dijstra求最短路径I"  data-scroll-to="#Dijstra求最短路径I"><span class="toc-number">6.1.</span> <span class="toc-text">Dijstra求最短路径I</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#Dijstra求最短路径II"  data-scroll-to="#Dijstra求最短路径II"><span class="toc-number">6.2.</span> <span class="toc-text">Dijstra求最短路径II</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#bellman-ford"  data-scroll-to="#bellman-ford"><span class="toc-number">7.</span> <span class="toc-text">bellman-ford</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#有边数限制的最短路"  data-scroll-to="#有边数限制的最短路"><span class="toc-number">7.1.</span> <span class="toc-text">有边数限制的最短路</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#spfa"  data-scroll-to="#spfa"><span class="toc-number">8.</span> <span class="toc-text">spfa</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#spfa求最短路"  data-scroll-to="#spfa求最短路"><span class="toc-number">8.1.</span> <span class="toc-text">spfa求最短路</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#spfa求负环"  data-scroll-to="#spfa求负环"><span class="toc-number">8.2.</span> <span class="toc-text">spfa求负环</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#Floyd"  data-scroll-to="#Floyd"><span class="toc-number">9.</span> <span class="toc-text">Floyd</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#Floyd求最短路"  data-scroll-to="#Floyd求最短路"><span class="toc-number">9.1.</span> <span class="toc-text">Floyd求最短路</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#Prim"  data-scroll-to="#Prim"><span class="toc-number">10.</span> <span class="toc-text">Prim</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#Prim算法求最小生成树"  data-scroll-to="#Prim算法求最小生成树"><span class="toc-number">10.1.</span> <span class="toc-text">Prim算法求最小生成树</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#Kruskal"  data-scroll-to="#Kruskal"><span class="toc-number">11.</span> <span class="toc-text">Kruskal</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#算法求最小生成树"  data-scroll-to="#算法求最小生成树"><span class="toc-number">11.1.</span> <span class="toc-text">算法求最小生成树</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#染色法判定二分图"  data-scroll-to="#染色法判定二分图"><span class="toc-number">12.</span> <span class="toc-text">染色法判定二分图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#染色法判定二分图-1"  data-scroll-to="#染色法判定二分图-1"><span class="toc-number">12.1.</span> <span class="toc-text">染色法判定二分图</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#匈牙利算法"  data-scroll-to="#匈牙利算法"><span class="toc-number">13.</span> <span class="toc-text">匈牙利算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#二分图的最大匹配"  data-scroll-to="#二分图的最大匹配"><span class="toc-number">13.1.</span> <span class="toc-text">二分图的最大匹配</span></a></li></ol></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <svg class="symbol-icon trm-icon" aria-hidden="true">
+    <use xlink:href="#icon-rili"></use>
+</svg><br>
+            01/30
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <svg class="symbol-icon trm-icon" aria-hidden="true">
+    <use xlink:href="#icon-shijian"></use>
+</svg><br>
+            22:08
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <svg class="symbol-icon trm-icon" aria-hidden="true">
+    <use xlink:href="#icon-yonghu"></use>
+</svg><br>
+            日生
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h2 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h2><h3 id="排列问题"><a href="#排列问题" class="headerlink" title="排列问题"></a>排列问题</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">10</span>;
+<span class="hljs-type">int</span> path[N];<span class="hljs-comment">//保存序列</span>
+<span class="hljs-type">int</span> state[N];<span class="hljs-comment">//数字是否被用过</span>
+<span class="hljs-type">int</span> n;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span>(u &gt; n)<span class="hljs-comment">//数字填完了，输出</span>
+    &#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<span class="hljs-comment">//输出方案</span>
+            cout &lt;&lt; path[i] &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+        cout &lt;&lt; endl;
+    &#125;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<span class="hljs-comment">//空位上可以选择的数字为:1 ~ n</span>
+    &#123;
+        <span class="hljs-keyword">if</span>(!state[i])<span class="hljs-comment">//如果数字 i 没有被用过</span>
+        &#123;
+            path[u] = i;<span class="hljs-comment">//放入空位</span>
+            state[i] = <span class="hljs-number">1</span>;<span class="hljs-comment">//数字被用，修改状态</span>
+            <span class="hljs-built_in">dfs</span>(u + <span class="hljs-number">1</span>);<span class="hljs-comment">//填下一个位</span>
+            state[i] = <span class="hljs-number">0</span>;<span class="hljs-comment">//回溯，取出 i 回溯是关键</span>
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+
+    cin &gt;&gt; n;
+    <span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>);
+&#125;</code></pre>
+
+
+<h3 id="n皇后问题"><a href="#n皇后问题" class="headerlink" title="n皇后问题"></a>n皇后问题</h3><pre><code class="hljs C++"><span class="hljs-comment">//cpp</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">11</span>;
+
+<span class="hljs-type">char</span> q[N][N];<span class="hljs-comment">//存储棋盘</span>
+<span class="hljs-type">bool</span> dg[N * <span class="hljs-number">2</span>], udg[N * <span class="hljs-number">2</span>], cor[N];<span class="hljs-comment">//点对应的两个斜线以及列上是否有皇后</span>
+
+<span class="hljs-type">int</span> n;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> r)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">if</span>(r == n)<span class="hljs-comment">//放满了棋盘，输出棋盘</span>
+    &#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+        &#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++)
+                cout &lt;&lt; q[i][j];
+            cout &lt;&lt; endl;
+        &#125;
+        cout &lt;&lt; endl;
+        <span class="hljs-keyword">return</span>;
+    &#125;
+
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<span class="hljs-comment">//第 r 行，第 i 列 是否放皇后</span>
+    &#123;
+        <span class="hljs-keyword">if</span>(!cor[i] &amp;&amp; !dg[i + r] &amp;&amp; !udg[n - i + r])<span class="hljs-comment">//不冲突，放皇后 </span>
+        <span class="hljs-comment">//为什么这里能判断，因为同一条斜线上i + j 和 i - j 相等，所以可以这样处理</span>
+        &#123;
+            q[r][i] = <span class="hljs-string">&#x27;Q&#x27;</span>;
+            cor[i] = dg[i + r] = udg[n - i + r] = <span class="hljs-number">1</span>;<span class="hljs-comment">//对应的 列， 斜线 状态改变</span>
+            <span class="hljs-built_in">dfs</span>(r + <span class="hljs-number">1</span>);<span class="hljs-comment">//处理下一行</span>
+            cor[i] = dg[i + r] = udg[n - i + r] = <span class="hljs-number">0</span>;<span class="hljs-comment">//恢复现场,为什么要恢复现场，准备下一种情况的输入递归</span>
+            q[r][i] = <span class="hljs-string">&#x27;.&#x27;</span>;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    cin &gt;&gt; n;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ )
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j ++ )
+            q[i][j] = <span class="hljs-string">&#x27;.&#x27;</span>;
+    <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h2 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h2><h3 id="走迷宫问题"><a href="#走迷宫问题" class="headerlink" title="走迷宫问题"></a>走迷宫问题</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; PII;
+
+<span class="hljs-comment">//有没有明白的点可以看这个链接https://www.acwing.com/solution/content/36520/</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">110</span>;
+<span class="hljs-type">int</span> g[N][N];<span class="hljs-comment">//存储地图</span>
+<span class="hljs-type">int</span> f[N][N];<span class="hljs-comment">//存储距离</span>
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><span class="hljs-comment">//广度优先遍历</span></span>
+<span class="hljs-function"></span>&#123;
+    queue&lt;PII&gt; q;
+    q.<span class="hljs-built_in">push</span>(&#123;a, b&#125;);<span class="hljs-comment">//入队</span>
+    <span class="hljs-comment">//初始点的距离为 0.</span>
+    <span class="hljs-comment">//可以不要这一句，因为f初始化的时候，各个点为0</span>
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span>(!q.<span class="hljs-built_in">empty</span>())
+    &#123;
+        PII start = q.<span class="hljs-built_in">front</span>();<span class="hljs-comment">//将队列的第一个元素赋值给start元素</span>
+        q.<span class="hljs-built_in">pop</span>();<span class="hljs-comment">//将队首元素移出,这样的操作通常用于处理当前层次的节点</span>
+        <span class="hljs-comment">//这一句可以不要，因为入队的时候就置为了1</span>
+        g[start.first][start.second] = <span class="hljs-number">1</span>; <span class="hljs-comment">//是标记当前处理的点 (start.first, start.second) 已经被访问过，避免重复访问</span>
+        <span class="hljs-type">int</span> dx[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>&#125;, dy[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>&#125;;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)<span class="hljs-comment">//往四个方向走</span>
+        &#123;
+            <span class="hljs-comment">//当前点能走到的点</span>
+            <span class="hljs-type">int</span> x = start.first + dx[i], y = start.second + dy[i]; <span class="hljs-comment">//仔细琢磨这个地方，就可以知道它表示四个移动方向了</span>
+            <span class="hljs-comment">//如果还没有走过</span>
+            <span class="hljs-keyword">if</span>(g[x][y] == <span class="hljs-number">0</span>) <span class="hljs-comment">//确定是可以走的</span>
+            &#123;
+                <span class="hljs-comment">//走到这个点，并计算距离</span>
+                g[x][y] = <span class="hljs-number">1</span>;<span class="hljs-comment">//标记为已经访问</span>
+                f[x][y] = f[start.first][start.second] + <span class="hljs-number">1</span>;<span class="hljs-comment">//从当前点走过去，则距离等于当前点的距离+1.</span>
+                <span class="hljs-comment">//这个点放入队列，用来走到和它相邻的点。</span>
+                q.<span class="hljs-built_in">push</span>(&#123;x, y&#125;);<span class="hljs-comment">//将他入队</span>
+            &#125;
+
+        &#125;
+    &#125;
+    cout &lt;&lt; f[n][m];<span class="hljs-comment">//但是 BFS 本身的性质保证了在搜索过程中首次到达每个点的路径一定是最短路径</span>
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(g, <span class="hljs-number">1</span>, <span class="hljs-built_in">sizeof</span>(g)); <span class="hljs-comment">//memset函数，将所有的数组中的元素设置为特定值</span>
+    cin &gt;&gt; n &gt;&gt;m;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+    &#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)
+        &#123;
+            cin &gt;&gt; g[i][j];
+        &#125;
+    &#125;
+    <span class="hljs-built_in">bfs</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>);
+
+&#125;</code></pre>
+
+
+<h3 id="八数码问题"><a href="#八数码问题" class="headerlink" title="八数码问题"></a>八数码问题</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unordered_map&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+
+
+<span class="hljs-comment">//不明白可以看这个链接https://www.acwing.com/solution/content/36346/</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-comment">// 保存各个序列</span>
+queue&lt;string&gt; q;
+string s;
+<span class="hljs-comment">// 保存序列与对应的交换次数</span>
+unordered_map&lt;string, <span class="hljs-type">int</span>&gt; h;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">// 输入原始序列</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">9</span>; i++)
+    &#123;
+        <span class="hljs-type">char</span> c;
+        cin &gt;&gt; c;
+        s += c;
+    &#125;
+    <span class="hljs-comment">// 保存初始状态</span>
+    h[s] = <span class="hljs-number">0</span>;
+    q.<span class="hljs-built_in">push</span>(s);
+    <span class="hljs-comment">// 定义上下左右四个交换方向</span>
+    <span class="hljs-type">int</span> dx[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>&#125;, dy[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>&#125;;
+
+    <span class="hljs-comment">// 依次进行交换</span>
+    <span class="hljs-keyword">while</span>(!q.<span class="hljs-built_in">empty</span>())
+    &#123;
+        <span class="hljs-comment">// 获得当前序列</span>
+        string t = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-comment">// 如果是最后结果，输出答案</span>
+        <span class="hljs-keyword">if</span>(t == <span class="hljs-string">&quot;12345678x&quot;</span>)
+        &#123;
+            cout &lt;&lt; h[t] &lt;&lt; endl;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-comment">// 找到 x 的位置</span>
+        <span class="hljs-type">int</span> pos = t.<span class="hljs-built_in">find</span>(<span class="hljs-string">&#x27;x&#x27;</span>);
+        <span class="hljs-comment">// 计算 x 的坐标</span>
+        <span class="hljs-type">int</span> a = pos /<span class="hljs-number">3</span> , b = pos % <span class="hljs-number">3</span> ;
+        <span class="hljs-comment">// 获取当前序列对应的交换次数</span>
+        <span class="hljs-type">int</span> dist = h[t];
+
+        <span class="hljs-comment">// 尝试和四个方向的元素进行交换</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++)
+        &#123;
+            <span class="hljs-type">int</span> x = a + dx[i], y = b + dy[i];
+            <span class="hljs-comment">// 判断是否越界</span>
+            <span class="hljs-keyword">if</span>(x &gt;= <span class="hljs-number">0</span> &amp;&amp; x &lt;= <span class="hljs-number">2</span> &amp;&amp; y &gt;= <span class="hljs-number">0</span> &amp;&amp; y &lt;= <span class="hljs-number">2</span>)
+            &#123;
+                <span class="hljs-comment">// 交换</span>
+                <span class="hljs-built_in">swap</span>(t[pos], t[<span class="hljs-number">3</span> * x + y]);<span class="hljs-comment">//这里这个t[3*x+y]是指的在一维中的索引位置</span>
+                <span class="hljs-comment">// 如果是个新序列，就保存新序列和对应的交换次数</span>
+                <span class="hljs-keyword">if</span>(h.<span class="hljs-built_in">find</span>(t) == h.<span class="hljs-built_in">end</span>())
+                &#123;
+                    h[t] = dist + <span class="hljs-number">1</span>;
+                    q.<span class="hljs-built_in">push</span>(t);
+                &#125;
+                <span class="hljs-comment">// 恢复现场，进行下一个方向的交换</span>
+                <span class="hljs-built_in">swap</span>(t[pos], t[<span class="hljs-number">3</span> * x + y]);<span class="hljs-comment">//交换只是交换位置</span>
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-comment">// 没有得到结果序列，输出-1</span>
+    cout &lt;&lt; <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h2 id="树和图的深度优先遍历"><a href="#树和图的深度优先遍历" class="headerlink" title="树和图的深度优先遍历"></a>树和图的深度优先遍历</h2><h3 id="树的重心问题"><a href="#树的重心问题" class="headerlink" title="树的重心问题"></a>树的重心问题</h3><pre><code class="hljs C++">
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-comment">//这个题目的代码我真的很迷，看了一个多小时都有点摸不着头脑</span>
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">10</span>; <span class="hljs-comment">//数据范围是10的5次方</span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> M = <span class="hljs-number">2</span> * N; <span class="hljs-comment">//以有向图的格式存储无向图，所以每个节点至多对应2n-2条边</span>
+
+<span class="hljs-type">int</span> h[N]; <span class="hljs-comment">//邻接表存储树，有n个节点，所以需要n个队列头节点</span>
+<span class="hljs-type">int</span> e[M]; <span class="hljs-comment">//存储元素</span>
+<span class="hljs-type">int</span> ne[M]; <span class="hljs-comment">//存储列表的next值</span>
+<span class="hljs-type">int</span> idx; <span class="hljs-comment">//单链表指针</span>
+<span class="hljs-type">int</span> n; <span class="hljs-comment">//题目所给的输入，n个节点</span>
+<span class="hljs-type">int</span> ans = N; <span class="hljs-comment">//表示重心的所有的子树中，最大的子树的结点数目</span>
+
+<span class="hljs-type">bool</span> st[N]; <span class="hljs-comment">//记录节点是否被访问过，访问过则标记为true</span>
+
+<span class="hljs-comment">//a所对应的单链表中插入b  a作为根 </span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> </span>&#123;
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+&#125;
+
+<span class="hljs-comment">// dfs 框架</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">void dfs(int u)&#123;</span>
+<span class="hljs-comment">    st[u]=true; // 标记一下，记录为已经被搜索过了，下面进行搜索过程</span>
+<span class="hljs-comment">    for(int i=h[u];i!=-1;i=ne[i])&#123;</span>
+<span class="hljs-comment">        int j=e[i];</span>
+<span class="hljs-comment">        if(!st[j]) &#123;</span>
+<span class="hljs-comment">            dfs(j);</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">&#125;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-comment">//返回以u为根的子树中节点的个数，包括u节点</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span> </span>&#123;
+    <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>; <span class="hljs-comment">//存储 删掉某个节点之后，最大的连通子图节点数</span>
+    st[u] = <span class="hljs-literal">true</span>; <span class="hljs-comment">//标记访问过u节点</span>
+    <span class="hljs-type">int</span> sum = <span class="hljs-number">1</span>; <span class="hljs-comment">//存储 以u为根的树 的节点数, 包括u，如图中的4号节点</span>
+
+    <span class="hljs-comment">//访问u的每个子节点</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = h[u]; i != <span class="hljs-number">-1</span>; i = ne[i]) &#123;
+        <span class="hljs-type">int</span> j = e[i];
+        <span class="hljs-comment">//因为每个节点的编号都是不一样的，所以 用编号为下标 来标记是否被访问过</span>
+        <span class="hljs-keyword">if</span> (!st[j]) &#123;
+            <span class="hljs-type">int</span> s = <span class="hljs-built_in">dfs</span>(j);  <span class="hljs-comment">// u节点的单棵子树节点数 如图中的size值</span>
+            res = <span class="hljs-built_in">max</span>(res, s); <span class="hljs-comment">// 记录最大联通子图的节点数</span>
+            sum += s; <span class="hljs-comment">//以j为根的树的节点数</span>
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">//n-sum 如图中的n-size值，不包括根节点4；</span>
+    res = <span class="hljs-built_in">max</span>(res, n - sum); <span class="hljs-comment">// 选择u节点为重心，最大的 连通子图节点数</span>
+    ans = <span class="hljs-built_in">min</span>(res, ans); <span class="hljs-comment">//遍历过的假设重心中，最小的最大联通子图的节点数</span>
+    <span class="hljs-keyword">return</span> sum;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h); <span class="hljs-comment">//初始化h数组 -1表示尾节点</span>
+    cin &gt;&gt; n; <span class="hljs-comment">//表示树的结点数</span>
+
+    <span class="hljs-comment">// 题目接下来会输入，n-1行数据，</span>
+    <span class="hljs-comment">// 树中是不存在环的，对于有n个节点的树，必定是n-1条边</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; i++) &#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-built_in">add</span>(a, b), <span class="hljs-built_in">add</span>(b, a); <span class="hljs-comment">//无向图</span>
+    &#125;
+
+    <span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">//可以任意选定一个节点开始 u&lt;=n</span>
+
+    cout &lt;&lt; ans &lt;&lt; endl;<span class="hljs-comment">//最后是输出ans我终于悟了</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">它这里实际上没有删除这个概念，它就只是，找到树中的一个节点，把它一分为二，位于它下面的，和除了“从此点蔓延下去的树（包括此点）”之外的所有节点，对于它下面的这类，处理是用一个for循环遍历和此点的所有出度，找到其中节点数，也就是联通量最大的一颗子树，记录下来，然后用这颗树总的节点数减去这颗最大的子树节点，再减一，也就是减去当前的节点，得到的值就是除了“从此点蔓延下去的树（包括此点）”之外的所有节点，取个min，就是答案了，每一个点一分为二后的最优解都会存到全局变量里，也就是每一次的dfs执行，都会将当前这个点的最大联通量与全局最优联通量比较，自然执行完所有dfs，此时的全局变量就是我们的答案。</span>
+<span class="hljs-comment">说起来有点绕，其实要想明白它每一次往下递归调用dfs，不仅仅是在算子树的节点大小，同时也在并行处理当前被dfs的这个节点它的最优解，就行了,最后输出的是ans</span>
+<span class="hljs-comment">*/</span>
+</code></pre>
+
+<h2 id="树和图的广度优先遍历"><a href="#树和图的广度优先遍历" class="headerlink" title="树和图的广度优先遍历"></a>树和图的广度优先遍历</h2><h3 id="图中点的层次"><a href="#图中点的层次" class="headerlink" title="图中点的层次"></a>图中点的层次</h3><pre><code class="hljs C++">
+<span class="hljs-comment">//简单的广度优先遍历问题</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">100010</span>;
+
+<span class="hljs-type">int</span> h[N],ne[N], e[N], idx;<span class="hljs-comment">//邻接表数据结构</span>
+<span class="hljs-type">int</span> dist[N];<span class="hljs-comment">//存储距离</span>
+<span class="hljs-type">int</span> st[N];<span class="hljs-comment">//标记点是否走到过</span>
+<span class="hljs-type">int</span> n, m;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><span class="hljs-comment">//邻接表存储图</span></span>
+<span class="hljs-function"></span>&#123;
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));<span class="hljs-comment">//初始都没有走到过，距离无穷大</span>
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<span class="hljs-comment">//从1号节点开始，距离为0</span>
+    queue&lt;<span class="hljs-type">int</span>&gt; q;<span class="hljs-comment">//队列</span>
+    q.<span class="hljs-built_in">push</span>(<span class="hljs-number">1</span>);<span class="hljs-comment">//1号节点入队列</span>
+    st[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<span class="hljs-comment">//1到1的距离为0，已经求出</span>
+    <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())<span class="hljs-comment">//对列非空，就一直往后搜索</span>
+    &#123;
+        <span class="hljs-type">int</span> t = q.<span class="hljs-built_in">front</span>();<span class="hljs-comment">//队头出队，找该点能到的点</span>
+        q.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[t]; i != <span class="hljs-number">-1</span>; i = ne[i])<span class="hljs-comment">//遍历所有t节点能到的点，i为节点索引</span>
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];<span class="hljs-comment">//通过索引i得到t能到的节点编号</span>
+            <span class="hljs-keyword">if</span>(!st[j])<span class="hljs-comment">//如果没有遍历过</span>
+            &#123;
+                dist[j] = dist[t] + <span class="hljs-number">1</span>;<span class="hljs-comment">//距离为t号节点的距离+1</span>
+                q.<span class="hljs-built_in">push</span>(j);<span class="hljs-comment">//节点入队</span>
+                st[j] = <span class="hljs-number">1</span>;<span class="hljs-comment">//入队后标记，已经遍历过了</span>
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    cin &gt;&gt; n &gt;&gt;m;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);<span class="hljs-comment">//初始化，所有节点没有后继，后继都是-1</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)<span class="hljs-comment">//读入所有边</span>
+    &#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-built_in">add</span>(a, b);<span class="hljs-comment">//加入邻接表</span>
+    &#125;
+    <span class="hljs-built_in">bfs</span>();<span class="hljs-comment">//广度优先遍历</span>
+
+    cout &lt;&lt; (dist[n] == <span class="hljs-number">0x3f3f3f3f</span> ? <span class="hljs-number">-1</span> : dist[n]);<span class="hljs-comment">//如果到n号节点的距离不是无穷大，输出距离，如果是无穷大，输出-1.</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h2 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h2><h3 id="有向图的拓扑序列"><a href="#有向图的拓扑序列" class="headerlink" title="有向图的拓扑序列"></a>有向图的拓扑序列</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">100010</span>;
+<span class="hljs-comment">//有疑问看这个链接：https://www.acwing.com/solution/content/103954/</span>
+<span class="hljs-type">int</span> e[N], ne[N], idx;<span class="hljs-comment">//邻接表存储图</span>
+<span class="hljs-type">int</span> h[N];
+<span class="hljs-type">int</span> q[N], hh = <span class="hljs-number">0</span>, tt = <span class="hljs-number">-1</span>;<span class="hljs-comment">//队列保存入度为0的点，也就是能够输出的点，</span>
+<span class="hljs-type">int</span> n, m;<span class="hljs-comment">//保存图的点数和边数</span>
+<span class="hljs-type">int</span> d[N];<span class="hljs-comment">////保存各个点的入度</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span></span>&#123;
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">topsort</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;<span class="hljs-comment">//遍历一遍顶点的入度。</span>
+        <span class="hljs-keyword">if</span>(d[i] == <span class="hljs-number">0</span>)<span class="hljs-comment">//如果入度为 0, 则可以入队列</span>
+            q[++tt] = i;
+    &#125;
+    <span class="hljs-keyword">while</span>(tt &gt;= hh)&#123;<span class="hljs-comment">//循环处理队列中点的</span>
+        <span class="hljs-type">int</span> a = q[hh++];
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[a]; i != <span class="hljs-number">-1</span>; i = ne[i])&#123;<span class="hljs-comment">//循环删除 a 发出的边</span>
+            <span class="hljs-type">int</span> b = e[i];<span class="hljs-comment">//a 有一条边指向b</span>
+            d[b]--;<span class="hljs-comment">//删除边后，b的入度减1</span>
+            <span class="hljs-keyword">if</span>(d[b] == <span class="hljs-number">0</span>)<span class="hljs-comment">//如果b的入度减为 0,则 b 可以输出，入队列</span>
+                q[++tt] = b;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(tt == n - <span class="hljs-number">1</span>)&#123;<span class="hljs-comment">//如果队列中的点的个数与图中点的个数相同，则可以进行拓扑排序</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;<span class="hljs-comment">//队列中保存了所有入度为0的点，依次输出</span>
+            cout &lt;&lt; q[i] &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">else</span><span class="hljs-comment">//如果队列中的点的个数与图中点的个数不相同，则可以进行拓扑排序</span>
+        cout &lt;&lt; <span class="hljs-number">-1</span>;<span class="hljs-comment">//输出-1，代表错误</span>
+&#125;
+
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    cin &gt;&gt; n &gt;&gt; m;<span class="hljs-comment">//保存点的个数和边的个数</span>
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);<span class="hljs-comment">//初始化邻接矩阵</span>
+    <span class="hljs-keyword">while</span> (m -- )&#123;<span class="hljs-comment">//依次读入边</span>
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        d[b]++;<span class="hljs-comment">//顶点b的入度+1</span>
+        <span class="hljs-built_in">add</span>(a, b);<span class="hljs-comment">//添加到邻接矩阵</span>
+    &#125;
+    <span class="hljs-built_in">topsort</span>();<span class="hljs-comment">//进行拓扑排序</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h2 id="Dijstra"><a href="#Dijstra" class="headerlink" title="Dijstra"></a>Dijstra</h2><h3 id="Dijstra求最短路径I"><a href="#Dijstra求最短路径I" class="headerlink" title="Dijstra求最短路径I"></a>Dijstra求最短路径I</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">510</span>, M = <span class="hljs-number">100010</span>;
+
+<span class="hljs-type">int</span> h[N], e[M], ne[M], w[M], idx;<span class="hljs-comment">//邻接表存储图</span>
+<span class="hljs-type">int</span> state[N];<span class="hljs-comment">//state 记录是否找到了源点到该节点的最短距离</span>
+<span class="hljs-type">int</span> dist[N];<span class="hljs-comment">//dist 数组保存源点到其余各个节点的距离</span>
+<span class="hljs-type">int</span> n, m;<span class="hljs-comment">//图的节点个数和边数</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span><span class="hljs-comment">//插入边</span></span>
+<span class="hljs-function"></span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx++;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));<span class="hljs-comment">//dist 数组的各个元素为无穷大</span>
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<span class="hljs-comment">//源点到源点的距离为置为 0</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)
+    &#123;
+        <span class="hljs-type">int</span> t = <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)<span class="hljs-comment">//遍历 dist 数组，找到没有确定最短路径的节点中距离源点最近的点t</span>
+        &#123;
+            <span class="hljs-keyword">if</span> (!state[j] &amp;&amp; (t == <span class="hljs-number">-1</span> || dist[j] &lt; dist[t]))
+                t = j;
+        &#125;
+
+        state[t] = <span class="hljs-number">1</span>;<span class="hljs-comment">//state[i] 置为 1。</span>
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = h[t]; j != <span class="hljs-number">-1</span>; j = ne[j])<span class="hljs-comment">//遍历 t 所有可以到达的节点 i</span>
+        &#123;
+            <span class="hljs-type">int</span> i = e[j];
+            dist[i] = <span class="hljs-built_in">min</span>(dist[i], dist[t] + w[j]);<span class="hljs-comment">//更新 dist[j]</span>
+        &#125;
+
+
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-built_in">sizeof</span>(h));<span class="hljs-comment">//邻接表初始化</span>
+
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">while</span> (m--)<span class="hljs-comment">//读入 m 条边</span>
+    &#123;
+        <span class="hljs-type">int</span> a, b, w;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;
+        <span class="hljs-built_in">add</span>(a, b, w);
+    &#125;
+
+    <span class="hljs-built_in">Dijkstra</span>();
+    <span class="hljs-keyword">if</span> (dist[n] != <span class="hljs-number">0x3f3f3f3f</span>)<span class="hljs-comment">//如果dist[n]被更新了，则存在路径</span>
+        cout &lt;&lt; dist[n];
+    <span class="hljs-keyword">else</span>
+        cout &lt;&lt; <span class="hljs-string">&quot;-1&quot;</span>;
+&#125;
+
+</code></pre>
+
+<h3 id="Dijstra求最短路径II"><a href="#Dijstra求最短路径II" class="headerlink" title="Dijstra求最短路径II"></a>Dijstra求最短路径II</h3><pre><code class="hljs C++">
+
+<span class="hljs-comment">//利用小根堆寻找最短距离点</span>
+<span class="hljs-comment">//priority_queue：是C++标准库中的优先队列类模板，实现了一个堆（heap）数据结构。</span>
+<span class="hljs-comment">//更多详细的解释可以看这个链接：https://www.acwing.com/solution/content/38318/</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span><span class="hljs-comment">//堆的头文件</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; PII;<span class="hljs-comment">//堆里存储距离和节点编号</span>
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e6</span> + <span class="hljs-number">10</span>;
+
+<span class="hljs-type">int</span> n, m;<span class="hljs-comment">//节点数量和边数</span>
+<span class="hljs-type">int</span> h[N], w[N], e[N], ne[N], idx;<span class="hljs-comment">//邻接表存储图</span>
+<span class="hljs-type">int</span> dist[N];<span class="hljs-comment">//存储距离</span>
+<span class="hljs-type">bool</span> st[N];<span class="hljs-comment">//存储状态</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span></span>
+<span class="hljs-function"></span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span> dist);<span class="hljs-comment">//距离初始化为无穷大</span>
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt;&gt; heap;<span class="hljs-comment">//小根堆</span>
+    heap.<span class="hljs-built_in">push</span>(&#123;<span class="hljs-number">0</span>, <span class="hljs-number">1</span>&#125;);<span class="hljs-comment">//插入距离和节点编号</span>
+
+    <span class="hljs-keyword">while</span> (heap.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-keyword">auto</span> t = heap.<span class="hljs-built_in">top</span>();<span class="hljs-comment">//取距离源点最近的点</span>
+        heap.<span class="hljs-built_in">pop</span>();
+
+        <span class="hljs-type">int</span> ver = t.second, distance = t.first;<span class="hljs-comment">//ver:节点编号，distance:源点距离ver 的距离</span>
+
+        <span class="hljs-keyword">if</span> (st[ver]) <span class="hljs-keyword">continue</span>;<span class="hljs-comment">//如果距离已经确定，则跳过该点</span>
+        st[ver] = <span class="hljs-literal">true</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = h[ver]; i != <span class="hljs-number">-1</span>; i = ne[i])<span class="hljs-comment">//更新ver所指向的节点距离</span>
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];
+            <span class="hljs-keyword">if</span> (dist[j] &gt; dist[ver] + w[i])
+            &#123;
+                dist[j] = dist[ver] + w[i];
+                heap.<span class="hljs-built_in">push</span>(&#123;dist[j], j&#125;);<span class="hljs-comment">//距离变小，则入堆</span>
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">if</span> (dist[n] == <span class="hljs-number">0x3f3f3f3f</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">return</span> dist[n];
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);
+
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);
+    <span class="hljs-keyword">while</span> (m -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>, &amp;a, &amp;b, &amp;c);
+        <span class="hljs-built_in">add</span>(a, b, c);
+    &#125;
+
+    cout &lt;&lt; <span class="hljs-built_in">dijkstra</span>() &lt;&lt; endl;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h2 id="bellman-ford"><a href="#bellman-ford" class="headerlink" title="bellman-ford"></a>bellman-ford</h2><h3 id="有边数限制的最短路"><a href="#有边数限制的最短路" class="headerlink" title="有边数限制的最短路"></a>有边数限制的最短路</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">510</span>, M = <span class="hljs-number">10010</span>;
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Edge</span> &#123;
+    <span class="hljs-type">int</span> a;
+    <span class="hljs-type">int</span> b;
+    <span class="hljs-type">int</span> w;
+&#125; e[M];<span class="hljs-comment">//把每个边保存下来即可</span>
+<span class="hljs-type">int</span> dist[N];
+<span class="hljs-type">int</span> back[N];<span class="hljs-comment">//备份数组防止串联</span>
+<span class="hljs-type">int</span> n, m, k;<span class="hljs-comment">//k代表最短路径最多包涵k条边</span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">bellman_ford</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span> dist);
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; k; i++) &#123;<span class="hljs-comment">//k次循环 ，每一次循环都遍历所有的边</span>
+        <span class="hljs-built_in">memcpy</span>(back, dist, <span class="hljs-keyword">sizeof</span> dist);<span class="hljs-comment">//的memcpy函数，其目的是将存储在dist数组中的数据复制到back数组中。具体而言，memcpy用于在内存之间复制一定数量的字节。在这里，back是目标数组，dist是源数组，sizeof dist表示要复制的字节数，即dist数组的大小。</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; m; j++) &#123;<span class="hljs-comment">//遍历所有边</span>
+            <span class="hljs-type">int</span> a = e[j].a, b = e[j].b, w = e[j].w;
+            dist[b] = <span class="hljs-built_in">min</span>(dist[b], back[a] + w);
+            <span class="hljs-comment">//使用backup:避免给a更新后立马更新b, 这样b一次性最短路径就多了两条边出来</span>
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span> (dist[n] &gt; <span class="hljs-number">0x3f3f3f3f</span> / <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> dist[n];
+
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>, &amp;n, &amp;m, &amp;k);
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;
+        <span class="hljs-type">int</span> a, b, w;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>, &amp;a, &amp;b, &amp;w);
+        e[i] = &#123;a, b, w&#125;;
+    &#125;
+    <span class="hljs-type">int</span> res = <span class="hljs-built_in">bellman_ford</span>();
+    <span class="hljs-keyword">if</span> (res == <span class="hljs-number">-1</span>) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;impossible&quot;</span>);
+    <span class="hljs-keyword">else</span> cout &lt;&lt; res;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h2 id="spfa"><a href="#spfa" class="headerlink" title="spfa"></a>spfa</h2><h3 id="spfa求最短路"><a href="#spfa求最短路" class="headerlink" title="spfa求最短路"></a>spfa求最短路</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-comment">//和bellman-ford区别就在于，它更新最短路径时，没有纯暴力，采取了如果有变化就加入队列的方式</span>
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">100010</span>;
+<span class="hljs-type">int</span> h[N], e[N], w[N], ne[N], idx;<span class="hljs-comment">//邻接表，存储图</span>
+<span class="hljs-type">int</span> st[N];<span class="hljs-comment">//标记顶点是不是在队列中</span>
+<span class="hljs-type">int</span> dist[N];<span class="hljs-comment">//保存最短路径的值</span>
+<span class="hljs-type">int</span> q[N], hh, tt = <span class="hljs-number">-1</span>;<span class="hljs-comment">//队列</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span></span>&#123;<span class="hljs-comment">//图中添加边和边的端点</span>
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx++;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">spfa</span><span class="hljs-params">()</span></span>&#123;
+    q[++tt] = <span class="hljs-number">1</span>;<span class="hljs-comment">//从1号顶点开始松弛，1号顶点入队</span>
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<span class="hljs-comment">//1号到1号的距离为 0</span>
+    st[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<span class="hljs-comment">//1号顶点在队列中</span>
+    <span class="hljs-keyword">while</span>(tt &gt;= hh)&#123;<span class="hljs-comment">//不断进行松弛</span>
+        <span class="hljs-type">int</span> a = q[hh++];<span class="hljs-comment">//取对头记作a，进行松弛</span>
+        st[a] = <span class="hljs-number">0</span>;<span class="hljs-comment">//取完队头后，a不在队列中了</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[a]; i != <span class="hljs-number">-1</span>; i = ne[i])<span class="hljs-comment">//遍历所有和a相连的点</span>
+        &#123;
+            <span class="hljs-type">int</span> b = e[i], c = w[i];<span class="hljs-comment">//获得和a相连的点和边</span>
+            <span class="hljs-keyword">if</span>(dist[b] &gt; dist[a] + c)&#123;<span class="hljs-comment">//如果可以距离变得更短，则更新距离</span>
+
+                dist[b] = dist[a] + c;<span class="hljs-comment">//更新距离</span>
+
+                <span class="hljs-keyword">if</span>(!st[b])&#123;<span class="hljs-comment">//如果没在队列中</span>
+                    q[++tt] = b;<span class="hljs-comment">//入队</span>
+                    st[b] = <span class="hljs-number">1</span>;<span class="hljs-comment">//打标记</span>
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);<span class="hljs-comment">//初始化邻接表</span>
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span> dist);<span class="hljs-comment">//初始化距离</span>
+    <span class="hljs-type">int</span> n, m;<span class="hljs-comment">//保存点的数量和边的数量</span>
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)&#123;<span class="hljs-comment">//读入每条边和边的端点</span>
+        <span class="hljs-type">int</span> a, b, w;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;
+        <span class="hljs-built_in">add</span>(a, b, w);<span class="hljs-comment">//加入到邻接表</span>
+    &#125;
+    <span class="hljs-built_in">spfa</span>();
+    <span class="hljs-keyword">if</span>(dist[n] == <span class="hljs-number">0x3f3f3f3f</span> )<span class="hljs-comment">//如果到n点的距离是无穷，则不能到达 </span>
+        cout &lt;&lt; <span class="hljs-string">&quot;impossible&quot;</span>;
+    <span class="hljs-keyword">else</span> cout &lt;&lt; dist[n];<span class="hljs-comment">//否则能到达，输出距离</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h3 id="spfa求负环"><a href="#spfa求负环" class="headerlink" title="spfa求负环"></a>spfa求负环</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2010</span>, M = <span class="hljs-number">10010</span>;
+
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-type">int</span> h[N], w[M], e[M], ne[M], idx;
+<span class="hljs-type">int</span> dist[N], cnt[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span></span>
+<span class="hljs-function"></span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">spfa</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    queue&lt;<span class="hljs-type">int</span>&gt; q;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        st[i] = <span class="hljs-literal">true</span>;
+        q.<span class="hljs-built_in">push</span>(i);
+    &#125;
+
+    <span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-type">int</span> t = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+
+        st[t] = <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = h[t]; i != <span class="hljs-number">-1</span>; i = ne[i])
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];
+            <span class="hljs-keyword">if</span> (dist[j] &gt; dist[t] + w[i])
+            &#123;
+                dist[j] = dist[t] + w[i];
+                cnt[j] = cnt[t] + <span class="hljs-number">1</span>;
+
+                <span class="hljs-keyword">if</span> (cnt[j] &gt;= n) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">//如果路径的长度大于等于n，就说明存在负环</span>
+                <span class="hljs-keyword">if</span> (!st[j])
+                &#123;
+                    q.<span class="hljs-built_in">push</span>(j);
+                    st[j] = <span class="hljs-literal">true</span>;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);
+
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);
+    <span class="hljs-comment">//求负环不需要初始化距离，因为不是求取最短路径</span>
+
+    <span class="hljs-keyword">while</span> (m -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>, &amp;a, &amp;b, &amp;c);
+        <span class="hljs-built_in">add</span>(a, b, c);
+    &#125;
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">spfa</span>()) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Yes&quot;</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;No&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+
+<h2 id="Floyd"><a href="#Floyd" class="headerlink" title="Floyd"></a>Floyd</h2><h3 id="Floyd求最短路"><a href="#Floyd求最短路" class="headerlink" title="Floyd求最短路"></a>Floyd求最短路</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">210</span>, M = <span class="hljs-number">2e+10</span>, INF = <span class="hljs-number">1e9</span>;
+
+<span class="hljs-type">int</span> n, m, k, x, y, z;
+<span class="hljs-type">int</span> d[N][N];
+
+
+<span class="hljs-comment">//floyd算法很简单，思路在胡凡算法笔记的398页解释的非常透彻且详细</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">floyd</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">1</span>; k &lt;= n; k++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)
+                d[i][j] = <span class="hljs-built_in">min</span>(d[i][j], d[i][k] + d[k][j]);
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)
+            <span class="hljs-keyword">if</span>(i == j) d[i][j] = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">else</span> d[i][j] = INF;
+    <span class="hljs-keyword">while</span>(m--) &#123;
+        cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;
+        d[x][y] = <span class="hljs-built_in">min</span>(d[x][y], z);
+        <span class="hljs-comment">//注意保存最小的边</span>
+    &#125;
+    <span class="hljs-built_in">floyd</span>();
+    <span class="hljs-keyword">while</span>(k--) &#123;
+        cin &gt;&gt; x &gt;&gt; y;
+        <span class="hljs-keyword">if</span>(d[x][y] &gt; INF/<span class="hljs-number">2</span>) <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;impossible&quot;</span>);
+        <span class="hljs-comment">//由于有负权边存在所以约大过INF/2也很合理</span>
+        <span class="hljs-keyword">else</span> cout &lt;&lt; d[x][y] &lt;&lt; endl;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h2 id="Prim"><a href="#Prim" class="headerlink" title="Prim"></a>Prim</h2><h3 id="Prim算法求最小生成树"><a href="#Prim算法求最小生成树" class="headerlink" title="Prim算法求最小生成树"></a>Prim算法求最小生成树</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">510</span>;
+<span class="hljs-type">int</span> g[N][N];<span class="hljs-comment">//存储图</span>
+<span class="hljs-type">int</span> dt[N];<span class="hljs-comment">//存储各个节点到生成树的距离</span>
+<span class="hljs-type">int</span> st[N];<span class="hljs-comment">//节点是否被加入到生成树中</span>
+<span class="hljs-type">int</span> pre[N];<span class="hljs-comment">//节点的前去节点</span>
+<span class="hljs-type">int</span> n, m;<span class="hljs-comment">//n 个节点，m 条边</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">prim</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(dt,<span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dt));<span class="hljs-comment">//初始化距离数组为一个很大的数（10亿左右）</span>
+    <span class="hljs-type">int</span> res= <span class="hljs-number">0</span>;
+    dt[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<span class="hljs-comment">//从 1 号节点开始生成 </span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<span class="hljs-comment">//每次循环选出一个点加入到生成树</span>
+    &#123;
+        <span class="hljs-type">int</span> t = <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)<span class="hljs-comment">//每个节点一次判断</span>
+        &#123;
+            <span class="hljs-keyword">if</span>(!st[j] &amp;&amp; (t == <span class="hljs-number">-1</span> || dt[j] &lt; dt[t]))<span class="hljs-comment">//如果没有在树中，且到树的距离最短，则选择该点</span>
+                t = j;
+        &#125;
+
+        <span class="hljs-comment">//2022.6.1 发现测试用例加强后，需要判断孤立点了</span>
+        <span class="hljs-comment">//如果孤立点，直返输出不能，然后退出</span>
+        <span class="hljs-keyword">if</span>(dt[t] == <span class="hljs-number">0x3f3f3f3f</span>) &#123;
+            cout &lt;&lt; <span class="hljs-string">&quot;impossible&quot;</span>;
+            <span class="hljs-keyword">return</span>;
+        &#125;
+
+
+        st[t] = <span class="hljs-number">1</span>;<span class="hljs-comment">// 选择该点</span>
+        res += dt[t];
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<span class="hljs-comment">//更新生成树外的点到生成树的距离</span>
+        &#123;
+            <span class="hljs-keyword">if</span>(dt[i] &gt; g[t][i] &amp;&amp; !st[i])<span class="hljs-comment">//从 t 到节点 i 的距离小于原来距离，则更新。</span>
+            &#123;
+                dt[i] = g[t][i];<span class="hljs-comment">//更新距离</span>
+                pre[i] = t;<span class="hljs-comment">//从 t 到 i 的距离更短，i 的前驱变为 t.</span>
+            &#125;
+        &#125;
+    &#125;
+
+    cout &lt;&lt; res;
+
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">getPath</span><span class="hljs-params">()</span><span class="hljs-comment">//输出各个边</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = n; i &gt; <span class="hljs-number">1</span>; i--)<span class="hljs-comment">//n 个节点，所以有 n-1 条边。</span>
+
+    &#123;
+        cout &lt;&lt; i &lt;&lt;<span class="hljs-string">&quot; &quot;</span> &lt;&lt; pre[i] &lt;&lt; <span class="hljs-string">&quot; &quot;</span>&lt;&lt; endl;<span class="hljs-comment">// i 是节点编号，pre[i] 是 i 节点的前驱节点。他们构成一条边。</span>
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(g, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(g));<span class="hljs-comment">//各个点之间的距离初始化成很大的数</span>
+    cin &gt;&gt; n &gt;&gt; m;<span class="hljs-comment">//输入节点数和边数</span>
+    <span class="hljs-keyword">while</span>(m --)
+    &#123;
+        <span class="hljs-type">int</span> a, b, w;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;<span class="hljs-comment">//输出边的两个顶点和权重</span>
+        g[a][b] = g[b][a] = <span class="hljs-built_in">min</span>(g[a][b],w);<span class="hljs-comment">//存储权重</span>
+    &#125;
+
+    <span class="hljs-built_in">prim</span>();<span class="hljs-comment">//求最下生成树</span>
+    <span class="hljs-comment">//getPath();//输出路径</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+
+<h2 id="Kruskal"><a href="#Kruskal" class="headerlink" title="Kruskal"></a>Kruskal</h2><h3 id="算法求最小生成树"><a href="#算法求最小生成树" class="headerlink" title="算法求最小生成树"></a>算法求最小生成树</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">100010</span>;
+<span class="hljs-type">int</span> p[N];<span class="hljs-comment">//保存并查集</span>
+
+<span class="hljs-comment">//并查集判断是否构成回路</span>
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">E</span>&#123;
+    <span class="hljs-type">int</span> a;
+    <span class="hljs-type">int</span> b;
+    <span class="hljs-type">int</span> w;
+    <span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span> &lt; (<span class="hljs-type">const</span> E&amp; rhs)&#123;<span class="hljs-comment">//通过边长进行排序</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>-&gt;w &lt; rhs.w;
+    &#125;
+
+&#125;edg[N * <span class="hljs-number">2</span>];
+<span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;
+
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-type">int</span> cnt = <span class="hljs-number">0</span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-type">int</span> a)</span></span>&#123;<span class="hljs-comment">//并查集找祖宗</span>
+    <span class="hljs-keyword">if</span>(p[a] != a) p[a] = <span class="hljs-built_in">find</span>(p[a]);
+    <span class="hljs-keyword">return</span> p[a];
+&#125;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">klskr</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++)<span class="hljs-comment">//依次尝试加入每条边</span>
+    &#123;
+        <span class="hljs-type">int</span> pa = <span class="hljs-built_in">find</span>(edg[i].a);<span class="hljs-comment">// a 点所在的集合</span>
+        <span class="hljs-type">int</span> pb = <span class="hljs-built_in">find</span>(edg[i].b);<span class="hljs-comment">// b 点所在的集合</span>
+        <span class="hljs-keyword">if</span>(pa != pb)&#123;<span class="hljs-comment">//如果 a b 不在一个集合中</span>
+            res += edg[i].w;<span class="hljs-comment">//a b 之间这条边要</span>
+            p[pa] = pb;<span class="hljs-comment">// 合并a b</span>
+            cnt ++; <span class="hljs-comment">// 保留的边数量+1</span>
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) p[i] = i;<span class="hljs-comment">//初始化并查集</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++)&#123;<span class="hljs-comment">//读入每条边</span>
+        <span class="hljs-type">int</span> a, b , c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt;c;
+        edg[i] = &#123;a, b, c&#125;;
+    &#125;
+    <span class="hljs-built_in">sort</span>(edg + <span class="hljs-number">1</span>, edg + m + <span class="hljs-number">1</span>);<span class="hljs-comment">//按边长排序</span>
+    <span class="hljs-built_in">klskr</span>();
+    <span class="hljs-comment">//如果保留的边小于点数-1，则不能连通</span>
+    <span class="hljs-keyword">if</span>(cnt &lt; n - <span class="hljs-number">1</span>) &#123;
+        cout&lt;&lt; <span class="hljs-string">&quot;impossible&quot;</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+    cout &lt;&lt; res;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+
+<h2 id="染色法判定二分图"><a href="#染色法判定二分图" class="headerlink" title="染色法判定二分图"></a>染色法判定二分图</h2><h3 id="染色法判定二分图-1"><a href="#染色法判定二分图-1" class="headerlink" title="染色法判定二分图"></a>染色法判定二分图</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">100010</span> * <span class="hljs-number">2</span>;
+<span class="hljs-type">int</span> e[N], ne[N], idx;<span class="hljs-comment">//邻接表存储图</span>
+<span class="hljs-type">int</span> h[N];
+<span class="hljs-type">int</span> color[N];<span class="hljs-comment">//保存各个点的颜色，0 未染色，1 是红色，2 是黑色</span>
+<span class="hljs-type">int</span> n, m;<span class="hljs-comment">//点和边</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><span class="hljs-comment">//邻接表插入点和边</span></span>
+<span class="hljs-function"></span>&#123;
+    e[idx] = b, ne[idx]= h[a], h[a] = idx++;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u, <span class="hljs-type">int</span> c)</span><span class="hljs-comment">//深度优先遍历</span></span>
+<span class="hljs-function"></span>&#123;
+    color[u] = c;<span class="hljs-comment">//u的点成 c 染色</span>
+
+    <span class="hljs-comment">//遍历和 u 相邻的点</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[u]; i!= <span class="hljs-number">-1</span>; i = ne[i])
+    &#123;
+        <span class="hljs-type">int</span> b = e[i];                   
+        <span class="hljs-keyword">if</span>(!color[b])<span class="hljs-comment">//相邻的点没有颜色,则递归处理这个相邻点</span>
+        &#123;
+            <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">dfs</span>(b, <span class="hljs-number">3</span> - c)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<span class="hljs-comment">//（3 - 1 = 2， 如果 u 的颜色是2，则和 u 相邻的染成 1）</span>
+                                            <span class="hljs-comment">//（3 - 2 = 1， 如果 u 的颜色是1，则和 u 相邻的染成 2）</span>
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(color[b] &amp;&amp; color[b] != <span class="hljs-number">3</span> - c)<span class="hljs-comment">//如果已经染色，判断颜色是否为 3 - c</span>
+        &#123;                                     
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<span class="hljs-comment">//如果不是，说明冲突，返回                   </span>
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);<span class="hljs-comment">//初始化邻接表</span>
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++)<span class="hljs-comment">//读入边</span>
+    &#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-built_in">add</span>(a, b), <span class="hljs-built_in">add</span>(b, a);
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<span class="hljs-comment">//遍历点</span>
+    &#123;
+        <span class="hljs-keyword">if</span>(!color[i])<span class="hljs-comment">//如果没染色</span>
+        &#123;
+            <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">dfs</span>(i, <span class="hljs-number">1</span>))<span class="hljs-comment">//染色该点，并递归处理和它相邻的点</span>
+            &#123;
+                cout &lt;&lt; <span class="hljs-string">&quot;No&quot;</span> &lt;&lt; endl;<span class="hljs-comment">//出现矛盾，输出NO </span>
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            &#125;
+
+        &#125;
+    &#125;
+    cout &lt;&lt; <span class="hljs-string">&quot;Yes&quot;</span> &lt;&lt; endl;<span class="hljs-comment">//全部染色完成，没有矛盾，输出YES</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h2 id="匈牙利算法"><a href="#匈牙利算法" class="headerlink" title="匈牙利算法"></a>匈牙利算法</h2><h3 id="二分图的最大匹配"><a href="#二分图的最大匹配" class="headerlink" title="二分图的最大匹配"></a>二分图的最大匹配</h3><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-comment">// 邻接表存储图</span>
+<span class="hljs-type">int</span> n1, n2, m;
+<span class="hljs-type">int</span> h[<span class="hljs-number">500</span>], e[<span class="hljs-number">100010</span>],ne[<span class="hljs-number">100010</span>], idx = <span class="hljs-number">0</span>;
+<span class="hljs-comment">//st 标记是否递归找过， match[x]：和 x 编号的男生的编号</span>
+<span class="hljs-type">int</span> st[<span class="hljs-number">510</span>], match[<span class="hljs-number">510</span>];
+<span class="hljs-comment">//存图函数</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span></span>&#123;
+    e[idx] = b, ne[idx] = h[a]; h[a] = idx++;
+&#125;
+<span class="hljs-comment">//递归找可以匹配的点</span>
+
+<span class="hljs-comment">//详细得思路主要是这个链接：https://www.acwing.com/solution/content/179030/</span>
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>&#123;
+    <span class="hljs-comment">// 和各个点尝试能否匹配</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[x]; i != <span class="hljs-number">-1</span>; i = ne[i])&#123;
+        <span class="hljs-type">int</span> b = e[i];
+        <span class="hljs-keyword">if</span>(!st[b])&#123;<span class="hljs-comment">//打标记</span>
+            st[b] = <span class="hljs-number">1</span>;
+            <span class="hljs-comment">// 当前尝试点没有被匹配或者和当前尝试点匹配的那个点可以换另一个匹配</span>
+            <span class="hljs-keyword">if</span>(match[b] == <span class="hljs-number">0</span> || <span class="hljs-built_in">find</span>(match[b]))&#123;<span class="hljs-comment">//注意这里find(match[b]是寻找下一个匹配的女生</span>
+                <span class="hljs-comment">// 和当前尝试点匹配在一起</span>
+                match[b] = x;
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);
+    cin &gt;&gt; n1 &gt;&gt; n2 &gt;&gt; m;
+    <span class="hljs-comment">// 保存图，因为只从一遍找另一边，所以该无向图只需要存储一个方向</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)&#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-built_in">add</span>(a, b);
+    &#125;
+    <span class="hljs-type">int</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//为各个点找匹配</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n1; i++)&#123;
+        <span class="hljs-built_in">memset</span>(st, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> st);
+        <span class="hljs-comment">//找到匹配</span>
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">find</span>(i)) res++;
+    &#125;
+    cout &lt;&lt; res;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+</article>
+    
+    
+
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2024/02/02/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE-%E6%95%B0%E5%AD%A6%E7%9F%A5%E8%AF%86/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <div class="trm-cover-date">
+                    <div class="trm-cover-day">02</div>
+                    <div class="trm-cover-month">2024/02</div>
+                </div>
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE/">
+                    算法基础课
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/02/02/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%E8%AF%BE-%E6%95%B0%E5%AD%A6%E7%9F%A5%E8%AF%86/" class="trm-anima-link">
+                    算法基础课-数学知识
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/02/02</li>
+                <li>17:50</li>
+                
+                    <li>3.4k</li>
+                
+                
+                    <li>18</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2024/01/26/1.26/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <div class="trm-cover-date">
+                    <div class="trm-cover-day">26</div>
+                    <div class="trm-cover-month">2024/01</div>
+                </div>
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/%E6%97%A5%E8%AE%B0/">
+                    日记
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/01/26/1.26/" class="trm-anima-link">
+                    最近
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/01/26</li>
+                <li>21:14</li>
+                
+                    <li>501</li>
+                
+                
+                    <li>1</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container" data-scroll data-scroll-offset="50">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2023- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">shylove</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item">
+             "星余"  再次运行已经 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        var BirthDay = new Date("07/25/2023 16:13:00");
+        var today = new Date();
+        var timeold = (today.getTime() - BirthDay.getTime());
+        var msPerDay = 24 * 60 * 60 * 1000
+        var day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-yuedu"></use>
+</svg>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="回到顶部">
+        <svg class="symbol-icon " aria-hidden="true">
+    <use xlink:href="#icon-backtop"></use>
+</svg>
+    </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://npm.elemecdn.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://npm.elemecdn.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+        <script src="/js/plugins/typing.js?v=2.0.9"></script>
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://npm.elemecdn.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://twikoo-api-blue.vercel.app/","region":null,"option":null},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.9"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
